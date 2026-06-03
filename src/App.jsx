@@ -2,21 +2,16 @@ import { useState, useCallback } from 'react';
 import AppRoutes from './routes/AppRoutes';
 import Preloader from './components/common/Preloader';
 import SoundManager from './components/common/SoundManager';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 const App = () => {
   const [contentVisible, setContentVisible] = useState(false);
   const handleDone = useCallback(() => setContentVisible(true), []);
 
   return (
-    <>
+    <ErrorBoundary>
       <Preloader onDone={handleDone} />
       <SoundManager />
-      {/*
-        AppRoutes is always mounted so Three.js contexts, lazy chunks, and
-        model preloads all initialise DURING the preloader.  The wrapper is
-        kept invisible (opacity 0, pointer-events none) until the preloader
-        signals it is done, then fades in smoothly — no pop-in, no freeze.
-      */}
       <div
         className="app-content"
         style={{
@@ -26,9 +21,11 @@ const App = () => {
           willChange: 'opacity',
         }}
       >
-        <AppRoutes />
+        <ErrorBoundary>
+          <AppRoutes />
+        </ErrorBoundary>
       </div>
-    </>
+    </ErrorBoundary>
   );
 };
 
