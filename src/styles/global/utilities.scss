@@ -1,0 +1,29 @@
+@import '../variables';
+
+%card-base {
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid $color-border;
+  border-radius: 1.5rem;
+  padding: $space-m;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+}
+
+.btn.custom-btn {
+  border-radius: 999px;
+  padding: 0.9rem 1.8rem;
+  font-weight: $font-weight-semibold;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.btn.custom-btn:hover,
+.btn.custom-btn:focus {
+  transform: translateY(-2px);
+}
+
+@media (max-width: $breakpoint-md) {
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: $space-l;
+  }
+}

@@ -1,0 +1,35 @@
+.contact-hero {
+  padding-bottom: var(--space-xl);
+}
+
+.contact-form {
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  padding: var(--space-m);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  display: grid;
+  gap: var(--space-s);
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  color: var(--color-white);
+  padding: 1rem 1.1rem;
+}
+
+.contact-form label {
+  color: var(--color-white);
+  font-weight: var(--font-weight-semibold);
+}
+
+.contact-details {
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  padding: var(--space-m);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+}

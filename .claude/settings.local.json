@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx vite *)",
+      "Bash(grep -iv \"PURE\\\\|react-helmet\\\\|comment\\\\|annotation\\\\|rollup\\\\|will be removed\\\\|^$\")",
+      "PowerShell(Get-ChildItem -Path \"k:\\\\lof\\\\src\\\\assets\\\\font\\\\poppins\\\\\" | Select-Object Name, @{Label=\"Size\\(KB\\)\"; Expression={[math]::Round\\($_.Length/1KB, 2\\)}})",
+      "PowerShell(Get-ChildItem -Path \"k:\\\\lof\\\\public\\\\\" -Recurse | Select-Object Name, @{Label=\"Size\\(MB\\)\"; Expression={[math]::Round\\($_.Length/1MB, 2\\)}})"
+    ]
+  }
+}

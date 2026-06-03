@@ -1,0 +1,19 @@
+@import '../variables';
+
+.projects-hero {
+  padding-bottom: $space-xl;
+}
+
+.project-card {
+  @extend %card-base;
+  min-height: 220px;
+}
+
+.project-type {
+  display: inline-block;
+  margin-bottom: $space-s;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: $color-secondary;
+}

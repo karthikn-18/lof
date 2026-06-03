@@ -1,0 +1,298 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(4, 8, 22, 0.78);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.38), inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+  padding: 0.55rem 0;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.14em;
+  color: var(--color-white);
+}
+
+.nav-toggle {
+  display: none;
+  border: none;
+  background: transparent;
+  color: var(--color-white);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+}
+
+.site-nav > ul {
+  display: flex;
+  gap: var(--space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.site-nav > ul li:first-child{
+    margin-right: 20px;
+}
+.site-nav .submenu {
+  display: block;
+}
+
+.site-nav .submenu ul {
+  display: block;
+}
+
+.site-nav a {
+  color: var(--color-muted);
+  transition: color 160ms ease;
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  color: var(--color-white);
+}
+
+.site-nav li {
+  position: relative;
+}
+
+.site-nav .submenu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  min-width: 220px;
+  padding: 0.75rem 0;
+  margin: 0;
+  list-style: none;
+  background: rgba(5, 8, 20, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+  z-index: 10;
+}
+
+.site-nav .submenu li {
+  width: 100%;
+}
+
+.site-nav li:hover > .submenu,
+.site-nav li:focus-within > .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.site-nav .submenu li {
+  width: 100%;
+  position: relative;
+}
+
+.site-nav .submenu a {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.site-nav .submenu a:hover,
+.site-nav .submenu a.active {
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.site-nav .submenu .submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  min-width: 220px;
+  padding: 0.75rem 0;
+  margin: 0;
+  border-radius: 1rem;
+  background: rgba(5, 8, 20, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10px);
+  transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+  z-index: 10;
+}
+
+.site-nav .submenu li:hover > .submenu,
+.site-nav .submenu li:focus-within > .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.nav-item-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.glass-btn {
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  padding: 0.95rem 1.8rem;
+  border-radius: 1.5rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+
+.glass-btn--dark {
+  color: #fff;
+  background: rgba(7, 15, 42, 0.95);
+  border-color: rgba(138, 185, 255, 0.28);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 20px 55px rgba(17, 38, 96, 0.35);
+}
+
+.glass-btn--light {
+  color: #fff;
+  background: rgba(31, 67, 133, 0.96);
+  border-color: rgba(139, 178, 255, 0.32);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 20px 55px rgba(42, 84, 170, 0.28);
+}
+
+.glass-btn:hover,
+.glass-btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 80px rgba(35, 63, 136, 0.35);
+}
+
+.header-btn {
+  /* Sit inside the SVG button artwork */
+  width: 189px;
+  height: 58px;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: url('../../assets/light-btn.svg') no-repeat center / 100% 100%;
+  backdrop-filter: none;
+  box-shadow: none;
+  color: #fff;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-btn:hover,
+.header-btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: none;
+  filter: drop-shadow(0 6px 18px rgba(86, 138, 255, 0.45));
+}
+
+.submenu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: none;
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.submenu-toggle:hover,
+.submenu-toggle:focus-visible {
+  color: var(--color-white);
+}
+
+.has-submenu.is-open > .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+@media (max-width: 1024px) {
+  .site-nav .submenu {
+    position: static;
+    transform: none;
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .has-submenu.is-open > .submenu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .site-nav .submenu li {
+    padding-left: var(--space-m);
+  }
+}
+
+@media (max-width: 768px) {
+  .header-actions {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    right: 1.25rem;
+    width: min(260px, 90vw);
+    flex-direction: column;
+    background: rgba(5, 8, 20, 0.98);
+    border: 1px solid var(--color-border);
+    padding: var(--space-s);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .site-nav.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+  }
+}

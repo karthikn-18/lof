@@ -1,0 +1,214 @@
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+background-color: rgb(0, 0, 0);
+  color: var(--color-white);
+  line-height: var(--line-height-base);
+  font-feature-settings: 'liga' 1, 'kern' 1;
+  font-family: var(--font-sans);
+  color-scheme: dark;
+}
+
+.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1440px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+video,
+iframe {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.spinner-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 8, 20, 0.75);
+  z-index: 9000;
+}
+
+/* invisible drag hit-area that follows the floating astronaut so the
+   user can rotate him without the fixed astro-canvas blocking the rest
+   of the page from receiving pointer events */
+.astro-hit-area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 160px;
+  z-index: 4;
+  pointer-events: auto;
+  border-radius: 50%;
+  background: transparent;
+  cursor: grab;
+  will-change: transform, opacity;
+  opacity: 0;
+  /* show a soft hover ring so the user discovers the drag area */
+  transition: box-shadow 0.25s ease;
+}
+.astro-hit-area:hover {
+  box-shadow: 0 0 0 2px rgba(120, 180, 255, 0.25) inset,
+    0 0 24px rgba(80, 140, 230, 0.2);
+}
+.astro-hit-area:active {
+  cursor: grabbing;
+}
+
+/* water-trail cursor — droplets are stamped along the pointer path and
+   distort the content behind them via backdrop-filter. Nothing is shown
+   while the cursor is idle; spawned droplets ease in, swell, and fade
+   out over ~1.4s, leaving a brief wet streak in the cursor's wake. */
+.cursor-smudge-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  isolation: isolate;
+  contain: layout style;
+}
+
+/* SVG filter container — must be positioned + zero-sized but kept in
+   the DOM so the filter URL stays resolvable */
+.cursor-svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.cursor-smudge-blob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  /* CLEAR WATER — refraction via SVG displacement (content behind
+     stays sharp but warps like through a real water droplet).
+     A tiny brightness lift gives the wet-sheen feel without adding
+     any visible color. The fallback (browsers without SVG-url
+     backdrop-filter support) gets a very subtle contrast lift only —
+     no frosted blur. */
+  backdrop-filter: url(#cursor-water-refraction) brightness(1.02);
+  -webkit-backdrop-filter: url(#cursor-water-refraction) brightness(1.02);
+  background: transparent;
+  /* tighter mask — opaque centre fades quickly so each bead looks like
+     a crisp water droplet rather than a soft smear */
+  -webkit-mask-image: radial-gradient(
+    circle,
+    black 52%,
+    rgba(0, 0, 0, 0.3) 76%,
+    transparent 92%
+  );
+  mask-image: radial-gradient(
+    circle,
+    black 52%,
+    rgba(0, 0, 0, 0.3) 76%,
+    transparent 92%
+  );
+  will-change: transform, width, height, opacity;
+}
+
+/* fallback rule for browsers that DO support backdrop-filter but
+   ignore SVG url() inside it — the @supports check below replaces the
+   filter chain with a sharp contrast/brightness combo (no blur) so the
+   trail still reads as a water sheen, never as a frosted blur */
+@supports not (backdrop-filter: url(#x)) {
+  .cursor-smudge-blob {
+    backdrop-filter: contrast(1.06) brightness(1.02);
+    -webkit-backdrop-filter: contrast(1.06) brightness(1.02);
+  }
+}
+
+.canvas-loader {
+  color: var(--color-white);
+  font-size: 0.95rem;
+  padding: 0.75rem 1.1rem;
+  background: rgba(10, 15, 32, 0.9);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.canvas-loading {
+  display: grid;
+  place-items: center;
+  min-height: 320px;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  background: rgba(17, 24, 39, 0.95);
+  border-radius: 2rem;
+}
+
+.three-canvas-wrapper {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  border-radius: 2rem;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.16);
+}
+
+.site-main {
+  width:100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.section {
+  padding: var(--space-l) 0;
+}
+
+@media (max-width: 768px) {
+  .site-main {
+    padding: 0 var(--space-s);
+  }
+
+  .section {
+    padding: var(--space-m) 0;
+  }
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}

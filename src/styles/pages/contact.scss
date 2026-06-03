@@ -1,0 +1,29 @@
+@import '../variables';
+
+.contact-hero {
+  padding-bottom: $space-xl;
+}
+
+.contact-form {
+  @extend %card-base;
+  display: grid;
+  gap: $space-s;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid $color-border;
+  border-radius: 1rem;
+  color: $color-white;
+  padding: 1rem 1.1rem;
+}
+
+.contact-form label {
+  color: $color-white;
+  font-weight: $font-weight-semibold;
+}
+
+.contact-details {
+  @extend %card-base;
+}

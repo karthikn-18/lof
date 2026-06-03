@@ -1,0 +1,19 @@
+.btn.custom-btn {
+  border-radius: 999px;
+  padding: 0.9rem 1.8rem;
+  font-weight: var(--font-weight-semibold);
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.btn.custom-btn:hover,
+.btn.custom-btn:focus {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: var(--space-l);
+  }
+}

@@ -1,0 +1,16 @@
+.btn-primary.custom-btn {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  border: 1px solid transparent;
+  color: var(--color-white);
+}
+
+.btn-secondary.custom-btn {
+  background: transparent;
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.btn-primary.custom-btn:hover,
+.btn-secondary.custom-btn:hover {
+  box-shadow: 0 20px 40px rgba(108, 99, 255, 0.2);
+}

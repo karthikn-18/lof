@@ -1,0 +1,3943 @@
+.hero-section {
+  padding-top: var(--space-l);
+  padding-bottom: var(--space-l);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: var(--space-l);
+  align-items: center;
+}
+
+.hero-copy h1 {
+  margin-bottom: var(--space-m);
+}
+
+.hero-visual {
+  min-height: 520px;
+}
+
+.feature-section {
+  padding-top: 0;
+}
+
+.feature-card,
+.about-values article,
+.services-grid .service-card,
+.cta-section .cta-card,
+.project-card,
+.contact-form,
+.contact-details {
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  padding: var(--space-m);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    min-height: 420px;
+  }
+}
+
+
+
+/* =========================
+   SPACE SCIENCE HERO
+========================= */
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: rgb(0, 4, 20);
+}
+
+/* black fade at the bottom of the hero — blends into the next section.
+   Kept under z:3 so the astronaut layer stays in front of it. */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    #000 0%,
+    rgba(0, 0, 0, 0.75) 40%,
+    transparent 100%
+  );
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    /* subtle radial darken-vignette over the photo for richer contrast */
+    radial-gradient(
+      ellipse 100% 80% at 50% 55%,
+      rgba(0, 4, 24, 0) 35%,
+      rgba(0, 4, 24, 0.55) 100%
+    ),
+    /* uploaded banner photo */
+    url('../../assets/banner-bg-2.webp') center / cover no-repeat;
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* Blue lens-flare glare, top-left, in logo blue. Screen-blended
+   so it adds light over the scene and bleeds onto the Earth. */
+.hero-flare {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at 0% 0%,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(134, 196, 255, 0.85) 5%,
+    rgba(0, 102, 255, 0.55) 12%,
+    rgba(26, 71, 139, 0.32) 22%,
+    rgba(26, 56, 139, 0) 40%
+  );
+  filter: blur(2px);
+  /* Static flare pinned to the very top-left corner (no pulse) */
+  transform-origin: 0 0;
+  opacity: 0.9;
+}
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  /* background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.45) 100%
+  ); */
+}
+
+/* .hero-bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28%;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.6) 50%,
+    #000000 100%
+  );
+} */
+
+/* The title sits ABOVE the canvas, so the astronaut is always
+   visually behind it. Each letter is independent: only the
+   letters the astronaut is currently behind switch from solid
+   fill to a transparent stroked outline. */
+.hero-text-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  /* dark focus scrim so the title stays readable over the bright globe */
+  background: radial-gradient(
+    ellipse 60% 45% at 50% 50%,
+    rgba(0, 0, 0, 0.28) 0%,
+    rgba(0, 0, 0, 0.12) 45%,
+    transparent 75%
+  );
+}
+
+.hero-heading {
+  margin: 0;
+  text-align: center;
+  color: #fff;
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 0.92;
+  font-size: clamp(2rem, 7vw, 8rem);
+  /* subtle blue neon + dark base for legibility */
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55),
+    0 0 3px rgba(190, 215, 255, 0.55), 0 0 10px rgba(90, 150, 255, 0.4),
+    0 0 26px rgba(0, 83, 255, 0.28);
+  animation: heroGlow 4.5s ease-in-out infinite;
+}
+
+/* Subtle, continuous glow/brightness pulse. Only touches
+   text-shadow/filter so it never fights framer-motion's
+   entrance transform & opacity. */
+@keyframes heroGlow {
+  0%,
+  100% {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55),
+      0 0 3px rgba(190, 215, 255, 0.5),
+      0 0 10px rgba(90, 150, 255, 0.35),
+      0 0 26px rgba(0, 83, 255, 0.24);
+    filter: brightness(1);
+  }
+  50% {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55),
+      0 0 5px rgba(200, 222, 255, 0.7),
+      0 0 16px rgba(90, 150, 255, 0.5),
+      0 0 36px rgba(0, 83, 255, 0.34);
+    filter: brightness(1.08);
+  }
+}
+
+.hero-word {
+  display: block;
+  animation: heroWordShift 7s ease-in-out infinite;
+}
+
+.hero-word:last-child {
+  animation-delay: -3.5s;
+}
+
+/* Very slight letter-spacing breathing for a living title */
+@keyframes heroWordShift {
+  0%,
+  100% {
+    letter-spacing: 0.07em;
+  }
+  50% {
+    letter-spacing: 0.11em;
+  }
+}
+
+/* =========================
+   WHY SPACE SCIENCE
+========================= */
+
+.why-section {
+  position: relative;
+  background: #000 url('../../assets/Background-images/what-does-lof-do-bg.webp.webp')
+    center / cover no-repeat;
+  width: 100%;
+  min-height: 82vh;
+  overflow: hidden;
+}
+
+/* top + bottom black gradient overlays for smooth blending */
+.why-section::before,
+.why-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 26%;
+  z-index: 1;
+  pointer-events: none;
+}
+.why-section::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+.why-section::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+.why-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 82vh;
+}
+
+/* LEFT — sits above the fixed astronaut canvas (z-index 3) so text is readable */
+.why-left {
+  position: relative;
+  z-index: 4;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-l) var(--space-l) var(--space-m);
+}
+
+.why-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 3.2rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.0;
+  margin: 0 0 var(--space-m);
+  color: #fff;
+}
+
+.why-title-bold {
+  font-weight: 900;
+  display: block;
+}
+
+.why-desc {
+  font-family: var(--font-sans);
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0 0 var(--space-s);
+  max-width: 52ch;
+}
+
+.why-btn {
+  /* override fixed header-btn size — use natural sizing */
+  width: fit-content;
+  height: auto !important;
+  padding: 0.9rem 2.2rem !important;
+  background: rgba(31, 67, 133, 0.96) !important;
+  border-radius: 2rem !important;
+  border: 1px solid rgba(139, 178, 255, 0.32) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 20px 55px rgba(42, 84, 170, 0.28) !important;
+  backdrop-filter: blur(12px) !important;
+  margin-top: var(--space-s);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.why-btn:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 6px 18px rgba(86, 138, 255, 0.45));
+}
+
+/* RIGHT — astronaut canvas column */
+.why-right {
+  position: relative;
+  min-height: 70vh;
+}
+
+.why-canvas {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 900px) {
+  .why-container {
+    grid-template-columns: 1fr;
+  }
+
+  .why-left {
+    padding: var(--space-l) var(--space-s);
+  }
+
+  .why-right {
+    min-height: 75vw;
+  }
+
+  .why-title-bold {
+    display: inline;
+  }
+}
+
+/* =========================
+   LOF PROGRAM SECTION (3)
+========================= */
+/* tall so the pinned inner can drive the zoom while scrolling */
+.lof-section {
+  position: relative;
+  z-index: 1;
+  height: 220vh;
+  background: #05010f;
+}
+
+.lof-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #05010f url('../../assets/what-lof-does-bg.webp')
+    center / cover no-repeat;
+}
+
+/* top + bottom black gradient overlays */
+.lof-sticky::before,
+.lof-sticky::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 26%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.lof-sticky::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+
+.lof-sticky::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+/* top row: astronaut (left) + text (right) — zooms as a whole, anchored
+   on the box centre (transform set in JS) */
+.lof-top {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-l);
+  align-items: center;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* the grid cell — gives the box its natural (un-transformed) metrics */
+.lof-astro-col {
+  position: relative;
+  min-height: 72vh;
+}
+
+/* framed Earth panel — scaled in JS to zoom up to full screen.
+   The astronaut canvas floats in front, clipped to this box. */
+.lof-astro-box {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background: #000 url('../../assets/what-lof-do-frame.png')
+    center / cover no-repeat;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+    inset 0 0 22px rgba(0, 0, 0, 0.5);
+}
+
+/* fades the lower portion so the astronaut's legs melt into the scene */
+.lof-astro-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 48%,
+    rgba(0, 2, 12, 0.92) 100%
+  );
+  pointer-events: none;
+}
+
+.lof-text-col {
+  color: #fff;
+}
+
+.lof-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.2vw, 2.2rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  margin: 0 0 var(--space-s);
+}
+
+.lof-title:not(:first-child) {
+  margin-top: var(--space-m);
+}
+
+.lof-title-bold {
+  font-weight: 900;
+}
+
+.lof-desc {
+  font-family: var(--font-sans);
+  font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 54ch;
+  margin: 0 0 var(--space-s);
+}
+
+/* ---- age program cards (section 4) ---- */
+.age-section {
+  position: relative;
+  z-index: 1;
+  background: #05010f;
+  padding: var(--space-xl) 0;
+  overflow: hidden;
+}
+
+.age-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-s);
+  width: 100%;
+  max-width: 100%;
+}
+
+.age-card {
+  position: relative;
+  aspect-ratio: 265 / 289;
+  background-image: url('../../assets/age-frame_6_7.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding: 25% 11% 9%;
+  display: flex;
+  flex-direction: column;
+}
+
+.age-card-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.age-card-list li {
+  position: relative;
+  padding-left: 0.85rem;
+  font-family: var(--font-sans);
+  font-size: clamp(0.90rem, 0.72vw, 0.75rem);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.82);
+  margin-bottom: 20px;
+}
+
+.age-card-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #5a9bff;
+}
+
+@media (max-width: 992px) {
+  .lof-top {
+    grid-template-columns: 1fr;
+  }
+
+  .lof-astro-col {
+    min-height: 56vh;
+  }
+
+  .age-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .age-grid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin-inline: auto;
+  }
+}
+
+/* =========================
+   WHAT WILL STUDENTS LEARN (section 5)
+========================= */
+.learn-section {
+  position: relative;
+  z-index: 1;
+  background: #05010f url('../../assets/Background-images/what-will-students-learn-bg.webp')
+    center / cover no-repeat;
+  padding: var(--space-xl) 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* top + bottom black gradient overlays */
+.learn-section::before,
+.learn-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 24%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.learn-section::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+
+.learn-section::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+/* keep the content above the gradient overlays */
+.learn-section > .container {
+  position: relative;
+  z-index: 2;
+}
+
+.learn-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.8vw, 2.6rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  margin: 0 0 var(--space-s);
+}
+
+.learn-sub {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 auto var(--space-l);
+}
+
+.learn-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-m);
+  margin-bottom: var(--space-l);
+}
+
+/* .learn-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+  aspect-ratio: 273 / 331;
+  padding: 9% 10% 11%;
+  background: url('../../assets/students_learning_box_frame.svg') center / 100% 100% no-repeat;
+} */
+
+.learn-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+  padding: 15px;
+  background-color: rgb(18 32 82 / 60%);
+  border-radius: 20px;
+  border: 1px solid #a7c4ff;
+}
+
+.learn-card-img {
+  min-height: 0;
+  width: 100%;
+  height: 200px;
+  object-fit: cover ;
+  border-radius: 15px;
+  display: block;
+}
+
+.learn-card-img-placeholder {
+  flex: 1;
+  min-height: 0;
+  border-radius: 0.55rem;
+  background: linear-gradient(135deg, #20305c, #0a1330);
+}
+
+.learn-card-label {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  font-size: clamp(0.85rem, 1.05vw, 1.05rem);
+  line-height: 1.2;
+  color: #fff;
+}
+
+.learn-foot {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 70ch;
+  margin: 0 auto;
+}
+
+@media (max-width: 992px) {
+  .learn-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .learn-grid {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+    margin-inline: auto;
+  }
+}
+
+/* =========================
+   CERTIFICATES (section 6)
+========================= */
+.cert-section {
+  position: relative;
+  z-index: 1;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-xl) 0;
+  background: #000 url('../../assets/Background-images/new.png')
+    center / cover no-repeat;
+}
+
+.cert-section::before,
+.cert-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 32%;
+  pointer-events: none;
+}
+
+.cert-section::before {
+  top: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.92) 0%, transparent 100%);
+}
+
+.cert-section::after {
+  bottom: 0;
+  z-index: 2;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, transparent 100%);
+}
+
+.cert-inner {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: var(--space-l);
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+
+.cert-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.8vw, 2.6rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  margin: 0 0 var(--space-m);
+}
+
+.cert-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-width: 38ch;
+}
+
+.cert-list li {
+  position: relative;
+  padding-left: 1rem;
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cert-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #7fb0ff;
+}
+
+.cert-slider {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* let the side certificates peek out (coverflow) */
+.cert-slider .swiper {
+  overflow: visible;
+  padding: 1.5rem 0;
+}
+
+.cert-slide {
+  width: clamp(105px, 11.5vw, 165px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cert-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+@media (max-width: 900px) {
+  .cert-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: var(--space-m);
+  }
+
+  .cert-list {
+    align-items: center;
+    margin-inline: auto;
+  }
+}
+
+/* =========================
+   SPACE CAREERS WRAPPER
+   Shared bg for "Why Space for Future Careers" + "Competitions"
+========================= */
+
+/* overflow: hidden intentionally omitted — it would break position: sticky on the bg holder */
+.space-careers-wrapper {
+  position: relative;
+  background: #000 url('../../assets/space-theme-bg.png') center / cover no-repeat;
+}
+
+/* Black gradient blends into cert section above — z-index BELOW content (2) and
+   astronaut fixed layer (3) so it never covers text or the floating astronaut */
+.space-careers-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 14%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.96) 0%, transparent 100%);
+}
+
+/* Black gradient blends into section below */
+.space-careers-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 14%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.96) 0%, transparent 100%);
+}
+
+/* Sticky canvas holder — stays in viewport while both sections scroll over it */
+.space-careers-bg-holder {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 0;
+  margin-bottom: -100vh;
+  pointer-events: none;
+}
+
+.space-careers-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.space-careers-content {
+  position: relative;
+  z-index: 4;
+}
+
+/* =========================
+   WHY SPACE FOR FUTURE CAREERS (section 7)
+========================= */
+
+.careers-section {
+  padding: var(--space-xl) 0 var(--space-l);
+  text-align: center;
+}
+
+.careers-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.5vw, 2.2rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  margin: 0 0 var(--space-s);
+  text-shadow: 0 0 28px rgba(80, 150, 255, 0.35);
+}
+
+.careers-sub {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 56ch;
+  margin: 0 auto var(--space-l);
+}
+
+/* Grid wrapper: two centered flex rows (4 cards + 3 cards) */
+.careers-skills-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: var(--space-l);
+}
+
+.careers-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Card uses the uploaded future-career-frames.png as its chrome */
+.careers-skill-card {
+  flex: 0 0 calc(25% - 0.75rem);
+  max-width: 290px;
+  min-width: 140px;
+  aspect-ratio: 220 / 200;
+  background: url('../../assets/future-career-frames.png') center / 100% 100% no-repeat;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.careers-skill-card:hover {
+  transform: translateY(-5px);
+  filter: brightness(1.1) drop-shadow(0 10px 24px rgba(100, 160, 255, 0.35));
+}
+
+/* Photo fills the frame's main area; the built-in label bar sits below */
+.careers-skill-img {
+position: absolute;
+    top: 0%;
+    left: 5%;
+    margin: auto;
+    width: 93%;
+    height: 190px;
+    object-fit: contain;
+    border-radius: 0.3rem;
+}
+
+.careers-skill-label {
+  position: absolute;
+  bottom: 15%;
+  left: 6%;
+  right: 4%;
+  font-family: var(--font-display);
+  font-size: clamp(0.62rem, 0.82vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+}
+
+.careers-footer {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.68);
+  max-width: 72ch;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .careers-skill-card {
+    flex: 0 0 calc(50% - 0.6rem);
+  }
+}
+
+@media (max-width: 520px) {
+  .careers-skill-card {
+    flex: 0 0 calc(46% - 0.6rem);
+    min-width: 130px;
+  }
+}
+
+/* =========================
+   COMPETITIONS (section 8)
+========================= */
+
+.competitions-section {
+  padding: var(--space-l) 0 var(--space-xl);
+}
+
+.competitions-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.55fr;
+  gap: var(--space-xl);
+  align-items: center;
+  min-height: 62vh;
+}
+
+/* Left column — title + subtitle stacked, astronaut lands in the space */
+.competitions-left {
+  display: flex;
+  align-items: flex-start;
+  justify-content: start;
+  flex-direction: column;
+  padding-top: var(--space-m);
+  min-height: 100%;
+  user-select: none;
+}
+
+.competitions-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.competitions-label-text {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.2vw, 3.4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(80, 150, 255, 0.4),
+    0 0 80px rgba(40, 90, 220, 0.25);
+  margin: 0;
+}
+
+.competitions-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+  max-width: 28ch;
+}
+
+.competitions-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 2×2 grid; skull ornament is absolutely centred in the gap */
+.competitions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  position: relative;
+}
+
+/* Skull / brand ornament centred over the gap between all 4 cards */
+.comp-skull-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: 6.5rem;
+  height: 6.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  padding: 1.5rem;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  background: linear-gradient(
+    145deg,
+    #d9e0f0 0%,
+    #8a93a8 34%,
+    #c5cee0 56%,
+    #5b6680 100%
+  );
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.55),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.4);
+}
+
+.comp-skull-center img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(211, 60, 41, 0.75));
+}
+
+/* Frame-bordered card */
+.comp-card-outer {
+    position: relative;
+    width: 100%;
+    margin-bottom: 35px;
+    padding: 20px;
+    display: flex;
+    align-items: stretch;
+    transition: transform 0.25s ease, filter 0.25s ease;
+    filter: drop-shadow(0 4px 20px rgba(40, 100, 255, 0.2));
+    height: 270px;
+}
+
+.comp-card-outer:hover {
+  transform: translateY(-4px);
+  filter: drop-shadow(0 8px 32px rgba(80, 150, 255, 0.5));
+}
+
+/* frame image overlay */
+.comp-card-outer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--comp-frame) center / 100% 100% no-repeat;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* metallic icon badge — pinned to top-centre of the card frame */
+.comp-card-icon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -46%);
+  z-index: 5;             /* above the frame overlay */
+  width: 4.8rem;
+  height: 4.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem;
+  border-radius: 14px;
+  background: linear-gradient(
+    145deg,
+    #d9e0f0 0%,
+    #8a93a8 34%,
+    #c5cee0 56%,
+    #5b6680 100%
+  );
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.55),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.4),
+    0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.comp-card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.comp-card-inner {
+  flex: 1;                /* fills the card height reliably */
+  position: relative;
+  z-index: 1;
+  /* top padding reserves space for the icon badge that sits above */
+  padding: 3rem 1.4rem 1.4rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.comp-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(0.82rem, 1.1vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.comp-card-desc {
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 0.95vw, 0.88rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+@media (max-width: 992px) {
+  .competitions-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: var(--space-l);
+    min-height: auto;
+  }
+
+  .competitions-left {
+    min-height: auto;
+    align-items: center;
+    padding-top: 0;
+  }
+
+  .competitions-heading {
+    align-items: center;
+  }
+
+  .competitions-subtitle {
+    text-align: center;
+  }
+}
+
+@media (max-width: 560px) {
+  .competitions-grid {
+    grid-template-columns: 1fr;
+    max-width: 380px;
+    margin-inline: auto;
+  }
+
+  .comp-skull-center {
+    display: none;
+  }
+}
+
+/* =========================
+   FAQ SECTION WRAPPER
+   Shared static background for Career Pathways + Choose Right Path
+========================= */
+
+.faq-section-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Static background image */
+.faq-bg-anim {
+  position: absolute;
+  inset: 0;
+  background: url('../../assets/faq-bg.webp') center / cover no-repeat;
+  z-index: 0;
+}
+
+/* Combined overlay: dark tint + strong black gradients at top and bottom */
+.faq-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,  #000 0%,  rgba(0,0,0,0.82) 6%,  transparent 18%,  transparent 82%,  rgba(0,0,0,0.82) 94%,  #000 100%),
+    rgba(0, 2, 20, 0.62);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Content sits above both layers */
+.faq-section-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   CAREER PATHWAYS — FAQ ACCORDION (section 9)
+========================= */
+
+.career-pathways-section {
+  padding: var(--space-xl) 0 var(--space-l);
+  text-align: center;
+}
+
+.career-pathways-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #fff;
+  margin: 0 0 var(--space-l);
+  text-shadow: 0 0 32px rgba(80, 150, 255, 0.38);
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  text-align: left;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* ---- accordion row ---- */
+.faq-item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Outer button = gradient border using same clip-path technique as the competition cards */
+.faq-q-outer {
+  display: block;
+  width: 100%;
+  padding: 1.5px;
+  background: linear-gradient(
+    135deg,
+    rgba(80, 150, 255, 0.60) 0%,
+    rgba(30,  60, 180, 0.28) 50%,
+    rgba(80, 150, 255, 0.50) 100%
+  );
+  clip-path: polygon(
+    14px 0%, calc(100% - 14px) 0%,
+    100% 14px, 100% calc(100% - 14px),
+    calc(100% - 14px) 100%, 14px 100%,
+    0% calc(100% - 14px), 0% 14px
+  );
+  border: none;
+  cursor: pointer;
+  transition: filter 0.25s ease;
+}
+
+.faq-q-outer:hover {
+  filter: brightness(1.22) drop-shadow(0 4px 18px rgba(80, 150, 255, 0.42));
+}
+
+/* Inner div = dark glass fill, same clip-path → 1.5px gap shows the gradient border */
+.faq-q-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.7rem;
+  background: rgba(6, 10, 38, 0.84);
+  clip-path: polygon(
+    14px 0%, calc(100% - 14px) 0%,
+    100% 14px, 100% calc(100% - 14px),
+    calc(100% - 14px) 100%, 14px 100%,
+    0% calc(100% - 14px), 0% 14px
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.faq-q-text {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.2vw, 1.02rem);
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+.faq-q-arrow {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+  margin-left: 1rem;
+  transition: transform 0.32s ease;
+}
+
+.faq-item.is-open .faq-q-arrow {
+  transform: rotate(180deg);
+}
+
+/* Smooth CSS-grid accordion — no hardcoded max-height */
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.36s ease;
+}
+
+.faq-item.is-open .faq-answer {
+  grid-template-rows: 1fr;
+}
+
+.faq-answer-body {
+  overflow: hidden;
+  padding: 0 1.7rem;
+}
+
+.faq-answer-body p {
+  font-family: var(--font-sans);
+  font-size: clamp(0.82rem, 1.05vw, 0.94rem);
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.66);
+  margin: 0.75rem 0 0.9rem;
+}
+
+/* =========================
+   HOW TO CHOOSE THE RIGHT PATH (section 10)
+========================= */
+
+.choose-path-section {
+  padding: var(--space-l) 0 var(--space-xl);
+  text-align: center;
+}
+
+.choose-path-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 2rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  margin: 0 0 var(--space-l);
+  text-shadow: 0 0 28px rgba(80, 150, 255, 0.32);
+}
+
+.choose-path-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+}
+
+/* Card uses choose-path-frame.svg — SVG viewBox is 344×242 (landscape) */
+.choose-card {
+  aspect-ratio: 344 / 242;
+  background: url('../../assets/choose-path-frame.svg') center / 100% 100% no-repeat;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* top: clears the top tab (~9% of height)  left: clears the left parallelogram bar (~9% of width) */
+  padding: 18% 8% 10% 15%;
+  text-align: left;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.choose-card:hover {
+  transform: translateY(-6px);
+  filter: brightness(1.08) drop-shadow(0 12px 28px rgba(80, 140, 255, 0.3));
+}
+
+.choose-card-title {
+  font-family: var(--font-sans);
+  font-size: clamp(0.82rem, 1.05vw, 1rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.35rem;
+  line-height: 1.3;
+}
+
+.choose-card-consider {
+  font-family: var(--font-sans);
+  font-size: clamp(0.7rem, 0.88vw, 0.82rem);
+  color: rgba(255, 255, 255, 0.52);
+  display: block;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.choose-card-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.choose-card-list li {
+  font-family: var(--font-sans);
+  font-size: clamp(0.68rem, 0.9vw, 0.84rem);
+  color: rgba(255, 255, 255, 0.8);
+  padding-left: 0.85rem;
+  position: relative;
+  line-height: 1.4;
+}
+
+.choose-card-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #5a9bff;
+}
+
+@media (max-width: 992px) {
+  .choose-path-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .choose-path-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .faq-list {
+    gap: 0.65rem;
+  }
+}
+
+/* =========================
+   WHO ARE WE ASSOCIATED WITH
+========================= */
+.assoc-section {
+  position: relative;
+  z-index: 1;
+  background: #02030a url('../../assets/associated-bg.webp')
+    center / cover no-repeat;
+  padding: var(--space-xl) var(--space-m);
+  overflow: hidden;
+}
+
+/* scattered blinking star dots across the whole section — each at a
+   different position with its own delay/duration so the field never blinks
+   in sync */
+.assoc-blink-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.assoc-blink-stars i {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  will-change: transform, opacity;
+  border-radius: 50%;
+  background: #cfe2ff;
+  box-shadow: 0 0 8px rgba(180, 210, 255, 0.9),
+    0 0 14px rgba(120, 170, 255, 0.5);
+  opacity: 0;
+  animation: assocStarBlink 3.6s infinite;
+}
+.assoc-blink-stars i:nth-child(1)  { top: 12%; left: 7%;  animation-delay: 0.0s; }
+.assoc-blink-stars i:nth-child(2)  { top: 22%; left: 18%; animation-delay: 0.7s; }
+.assoc-blink-stars i:nth-child(3)  { top: 8%;  left: 34%; animation-delay: 1.3s; }
+.assoc-blink-stars i:nth-child(4)  { top: 26%; left: 52%; animation-delay: 1.9s; }
+.assoc-blink-stars i:nth-child(5)  { top: 14%; left: 68%; animation-delay: 0.4s; }
+.assoc-blink-stars i:nth-child(6)  { top: 30%; left: 82%; animation-delay: 2.4s; }
+.assoc-blink-stars i:nth-child(7)  { top: 6%;  left: 92%; animation-delay: 1.0s; }
+.assoc-blink-stars i:nth-child(8)  { top: 48%; left: 4%;  animation-delay: 2.1s; }
+.assoc-blink-stars i:nth-child(9)  { top: 56%; left: 22%; animation-delay: 0.8s; }
+.assoc-blink-stars i:nth-child(10) { top: 64%; left: 44%; animation-delay: 1.5s; }
+.assoc-blink-stars i:nth-child(11) { top: 50%; left: 60%; animation-delay: 0.3s; }
+.assoc-blink-stars i:nth-child(12) { top: 58%; left: 76%; animation-delay: 2.6s; }
+.assoc-blink-stars i:nth-child(13) { top: 72%; left: 12%; animation-delay: 1.7s; }
+.assoc-blink-stars i:nth-child(14) { top: 82%; left: 30%; animation-delay: 0.6s; }
+.assoc-blink-stars i:nth-child(15) { top: 86%; left: 52%; animation-delay: 2.2s; }
+.assoc-blink-stars i:nth-child(16) { top: 78%; left: 72%; animation-delay: 0.1s; }
+.assoc-blink-stars i:nth-child(17) { top: 90%; left: 88%; animation-delay: 1.2s; }
+.assoc-blink-stars i:nth-child(18) { top: 38%; left: 38%; animation-delay: 2.8s; width: 4px; height: 4px; }
+.assoc-blink-stars i:nth-child(19) { top: 18%; left: 80%; animation-delay: 0.9s; width: 4px; height: 4px; }
+.assoc-blink-stars i:nth-child(20) { top: 70%; left: 96%; animation-delay: 1.8s; width: 4px; height: 4px; }
+
+@keyframes assocStarBlink {
+  0%, 100% { opacity: 0; transform: scale(0.6); }
+  45%      { opacity: 0; transform: scale(0.6); }
+  55%      { opacity: 1; transform: scale(1.2); }
+  60%      { opacity: 0.5; transform: scale(1); }
+  65%      { opacity: 1; transform: scale(1.15); }
+  75%      { opacity: 0; transform: scale(0.6); }
+}
+
+/* top + bottom black gradient overlays */
+.assoc-section::before,
+.assoc-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 24%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.assoc-section::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+
+.assoc-section::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+.assoc-title {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  font-size: clamp(1.5rem, 3.4vw, 3rem);
+  margin: 0 auto var(--space-l);
+}
+
+/* fixed aspect so the boxes + connector lines share one coordinate space */
+.assoc-tree {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
+  aspect-ratio: 1044 / 540;
+}
+
+/* connector lines — drawn on load, viewBox matches the tree aspect */
+.assoc-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.assoc-lines path {
+  fill: none;
+  stroke: #a7c4ff;
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 600;
+  animation: assocDraw 1.8s ease forwards,
+    assocLinePulse 2.8s ease-in-out 1.8s infinite;
+  filter: drop-shadow(0 0 3px rgba(90, 150, 255, 0.7));
+}
+
+@keyframes assocDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ongoing pulse on the connector tracks AFTER the draw-in completes */
+@keyframes assocLinePulse {
+  0%, 100% {
+    stroke: #a7c4ff;
+    filter: drop-shadow(0 0 3px rgba(90, 150, 255, 0.7));
+  }
+  50% {
+    stroke: #e0ecff;
+    filter: drop-shadow(0 0 7px rgba(150, 200, 255, 1))
+      drop-shadow(0 0 14px rgba(100, 170, 255, 0.6));
+  }
+}
+
+/* a logo box — positioned by its frame centre (left/top set inline) */
+
+.assoc-box {
+  position: absolute;
+  width: 17%;
+  transform: translate(-50%, -50%);
+}
+
+.assoc-box-frame {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  aspect-ratio: 196 / 113;
+  background: url('../../assets/assocoated-section/associated-client-frame.svg')
+    center / 100% 100% no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11% 17% 15%;
+  /* static shadow — never repainted */
+  filter: drop-shadow(0 0 6px rgba(90, 150, 255, 0.45));
+  contain: layout style;
+}
+
+/* Glow pulse lives on a cheap opacity-only layer — animating opacity is
+   GPU-composited and triggers zero repaints, unlike animating filter */
+.assoc-box-frame::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: -1;
+  box-shadow: 0 0 14px rgba(140, 190, 255, 0.9),
+              0 0 30px rgba(80, 140, 255, 0.5);
+  opacity: 0.25;
+  will-change: opacity;
+  animation: assocBoxBlink 3.4s ease-in-out infinite;
+}
+
+@keyframes assocBoxBlink {
+  0%, 100% { opacity: 0.25; }
+  35%       { opacity: 1;    }
+  55%       { opacity: 0.2;  }
+}
+
+/* stagger the per-box blink so the grid never pulses in unison */
+.assoc-box:nth-child(3n) .assoc-box-frame { animation-delay: 0.8s; }
+.assoc-box:nth-child(3n + 1) .assoc-box-frame { animation-delay: 1.6s; }
+.assoc-box:nth-child(3n + 2) .assoc-box-frame { animation-delay: 0.3s; }
+
+.assoc-box-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* flickering bottom light, sits just under the frame */
+.assoc-box-light {
+  position: absolute;
+  top: 76%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 118%;
+  z-index: 1;
+  pointer-events: none;
+  will-change: opacity;
+  /* all cards flicker in sync (no per-card delay) */
+  animation: assocFlicker 4.5s infinite;
+}
+
+@keyframes assocFlicker {
+  0%,
+  100% {
+    opacity: 0.95;
+  }
+  8% {
+    opacity: 0.55;
+  }
+  9% {
+    opacity: 0.95;
+  }
+  20% {
+    opacity: 0.4;
+  }
+  22% {
+    opacity: 0.9;
+  }
+  41% {
+    opacity: 0.7;
+  }
+  43% {
+    opacity: 1;
+  }
+  56% {
+    opacity: 0.5;
+  }
+  58% {
+    opacity: 0.95;
+  }
+  80% {
+    opacity: 0.72;
+  }
+  82% {
+    opacity: 1;
+  }
+}
+
+/* centre LAB OF FUTURE box — positioned at the tree centre */
+.assoc-center-box {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: 30.0%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.4rem;
+  border-radius: 12px;
+}
+
+.assoc-center-box img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* on small screens the fixed-aspect tree just scales down as one unit;
+   below this, stack into a simple wrapped grid */
+@media (max-width: 600px) {
+  .assoc-tree {
+    aspect-ratio: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.1rem;
+  }
+
+  .assoc-lines {
+    display: none;
+  }
+
+  .assoc-box {
+    position: static;
+    transform: none;
+    width: 40%;
+  }
+
+  .assoc-center-box {
+    position: static;
+    transform: none;
+    width: 60%;
+    order: -1;
+  }
+}
+/* =========================
+   VETTED BY
+========================= */
+.vetted-section {
+  position: relative;
+  z-index: 1;
+  background: #02050f url('../../assets/vetted-team/vetted-bg.webp')
+    center / cover no-repeat;
+  padding: var(--space-xl) var(--space-m);
+  overflow: hidden;
+}
+
+/* top + bottom black gradient overlays */
+.vetted-section::before,
+.vetted-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 24%;
+  z-index: 1;
+  pointer-events: none;
+}
+.vetted-section::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+.vetted-section::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+.vetted-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: var(--space-l);
+  align-items: center;
+  min-height: 70vh;
+}
+
+/* 2 x 2 team grid */
+.vetted-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2.5rem);
+  justify-items: center;
+}
+
+.vetted-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 250px;
+  contain: layout style;
+}
+
+/* stage = projector beam + hologram + base disc */
+.vetted-stage {
+  position: relative;
+  width: clamp(120px, 14vw, 170px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/* two projector beams shooting up from the bottom corners, crossing
+   under the hologram so the figure appears to be cast from where they meet */
+.vetted-beam {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  width: 90%;
+  height: 100%;
+  /* feathered gradient replaces filter:blur — same soft look, zero GPU cost */
+  background: linear-gradient(
+    to top,
+    rgba(150, 205, 255, 0.45) 0%,
+    rgba(105, 175, 255, 0.14) 45%,
+    rgba(90, 165, 255, 0.04) 72%,
+    rgba(90, 165, 255, 0) 92%
+  );
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
+  will-change: opacity;
+}
+
+/* left projector sits at the bottom-left, fans up toward the centre */
+.vetted-beam--left {
+  left: -8%;
+  transform-origin: bottom left;
+  transform: rotate(15deg);
+  /* narrow source at the bottom-left corner, widening as it rises */
+  clip-path: polygon(0% 100%, 100% 0%, 52% 0%);
+}
+
+/* right projector mirrors it from the bottom-right */
+.vetted-beam--right {
+  right: -8%;
+  transform-origin: bottom right;
+  transform: rotate(-15deg);
+  clip-path: polygon(100% 100%, 0% 0%, 48% 0%);
+}
+
+/* bright intersection glow where the two beams cross, just under the feet */
+.vetted-stage::after {
+  display: none;
+  content: '';
+  position: absolute;
+  bottom: -4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  aspect-ratio: 2 / 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(200, 230, 255, 0.9) 0%,
+    rgba(110, 175, 255, 0.45) 40%,
+    rgba(80, 150, 255, 0) 75%
+  );
+  filter: blur(2px);   /* static — no per-frame repaint */
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+  z-index: 2;
+  will-change: opacity;
+}
+
+/* hologram portrait — rises out of the beam and sits ABOVE the ring light */
+.vetted-photo {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(34%) scaleY(0.92);
+  transform-origin: bottom center;
+  will-change: transform, opacity;
+  transition: opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* feet dissolve into the projector light for a holographic emergence */
+  -webkit-mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    rgba(0, 0, 0, 0.35) 7%,
+    #000 18%
+  );
+  mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    rgba(0, 0, 0, 0.35) 7%,
+    #000 18%
+  );
+}
+
+/* projector "switches on" + members rise when the section scrolls in */
+.vetted-section--in .vetted-beam {
+  opacity: 0.85;
+  animation: vettedBeamPulse 3.5s ease-in-out infinite;
+}
+.vetted-section--in .vetted-stage::after {
+  opacity: 1;
+  animation: vettedBasePulse 3.5s ease-in-out infinite;
+}
+.vetted-section--in .vetted-photo {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+}
+
+/* stagger the rise per card */
+.vetted-section--in .vetted-card:nth-child(1) .vetted-photo {
+  transition-delay: 0.15s;
+}
+.vetted-section--in .vetted-card:nth-child(2) .vetted-photo {
+  transition-delay: 0.35s;
+}
+.vetted-section--in .vetted-card:nth-child(3) .vetted-photo {
+  transition-delay: 0.55s;
+}
+.vetted-section--in .vetted-card:nth-child(4) .vetted-photo {
+  transition-delay: 0.75s;
+}
+
+@keyframes vettedBeamPulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes vettedBasePulse {
+  /* opacity-only — compositor thread, zero repaint */
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1;   }
+}
+
+.vetted-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* reduced to 2 drop-shadows — same hologram feel, half the filter cost */
+  filter: brightness(1.1) saturate(1.15)
+    drop-shadow(0 0 14px rgba(90, 160, 255, 0.55))
+    drop-shadow(0 0 28px rgba(70, 150, 255, 0.3));
+  will-change: opacity;
+  animation: vettedHoloFlicker 5s steps(1) infinite;
+}
+
+/* holographic colour wash — blue→cyan gradient bleeds into the figure.
+   Masked by the PNG's alpha so the wash only paints over the actual
+   subject — never the empty rectangle around it. */
+.vetted-photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(80, 190, 255, 0.28) 0%,
+    rgba(120, 160, 255, 0.12) 45%,
+    rgba(180, 120, 255, 0.18) 100%
+  );
+  mix-blend-mode: color;
+  pointer-events: none;
+  z-index: 1;
+  -webkit-mask-image: var(--vetted-mask);
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-image: var(--vetted-mask);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+/* moving scanlines + horizontal interference band over the portrait —
+   also clipped to the PNG alpha */
+.vetted-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    /* sweeping bright interference band */
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(160, 215, 255, 0.22) 48%,
+      rgba(200, 235, 255, 0.32) 50%,
+      rgba(160, 215, 255, 0.22) 52%,
+      transparent 100%
+    ),
+    /* fine scanlines */
+    repeating-linear-gradient(
+      to bottom,
+      rgba(150, 200, 255, 0.16) 0 1px,
+      transparent 1px 4px
+    );
+  background-size: 100% 220%, 100% 4px;
+  background-repeat: no-repeat, repeat;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 2;
+  animation: vettedScan 5s linear infinite,
+    vettedBand 4.5s ease-in-out infinite;
+  -webkit-mask-image: var(--vetted-mask);
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-image: var(--vetted-mask);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+@keyframes vettedScan {
+  to {
+    background-position: 0 0, 0 40px;
+  }
+}
+
+/* the bright band drifts from bottom to top */
+@keyframes vettedBand {
+  0% {
+    background-position: 0 120%, 0 0;
+  }
+  100% {
+    background-position: 0 -120%, 0 0;
+  }
+}
+
+@keyframes vettedHoloFlicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  /* quick blink */
+  9% {
+    opacity: 1;
+  }
+  9.5% {
+    opacity: 0.22;
+  }
+  10% {
+    opacity: 1;
+  }
+  /* subtle dip */
+  28% {
+    opacity: 0.86;
+  }
+  28.6% {
+    opacity: 1;
+  }
+  /* double blink */
+  43% {
+    opacity: 1;
+  }
+  43.4% {
+    opacity: 0.35;
+  }
+  43.8% {
+    opacity: 1;
+  }
+  44.6% {
+    opacity: 0.55;
+  }
+  45% {
+    opacity: 1;
+  }
+  /* blink */
+  72% {
+    opacity: 1;
+  }
+  72.5% {
+    opacity: 0.18;
+  }
+  73% {
+    opacity: 1;
+  }
+  /* faint dip */
+  88% {
+    opacity: 0.9;
+  }
+  88.6% {
+    opacity: 1;
+  }
+}
+
+/* name plate (frame) */
+.vetted-plate {
+  position: relative;
+  z-index: 3;
+  width: 300px;
+  aspect-ratio: 1183 / 412;
+  background: url('../../assets/vetted-team/vetted-frame.png')
+    center / 100% 100% no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 9%;
+}
+
+.vetted-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.vetted-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: #fff;
+  font-size: clamp(0.72rem, 0.95vw, 0.95rem);
+  line-height: 1.1;
+}
+
+.vetted-role {
+  font-family: var(--font-sans);
+  color: rgba(190, 215, 255, 0.72);
+  font-size: clamp(0.55rem, 0.72vw, 0.72rem);
+  line-height: 1.1;
+}
+
+.vetted-li {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: clamp(0.9rem, 1.3vw, 1.2rem);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.vetted-li:hover {
+  color: #4f9dff;
+  transform: translateY(-1px);
+}
+
+/* right column — VETTED BY title + open space for the astronaut */
+.vetted-right {
+  position: relative;
+  align-self: stretch;
+  min-height: 60vh;
+}
+
+.vetted-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fff;
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  margin: var(--space-m) 0 0;
+}
+
+@media (max-width: 900px) {
+  .vetted-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .vetted-right {
+    min-height: 42vh;
+    order: -1;
+  }
+  .vetted-title {
+    text-align: center;
+  }
+}
+
+/* =========================================================
+   SAND-SMOKE PUFFS — fire on landing / take-off at the
+   certificates section. Sits behind the astronaut layer.
+========================================================= */
+.astro-smoke-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2; /* astro-layer is z-index 3 → smoke sits behind it */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.astro-smoke {
+  position: absolute;
+  /* landing spot of the astronaut at the cert section */
+  left: 68vw;
+  top: 96vh;
+  width: 280px;
+  height: 110px;
+  margin-left: -140px; /* centre on (left, top) */
+  margin-top: -55px;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(145, 131, 106, 0.85) 0%,
+    rgba(116, 99, 70, 0.5) 38%,
+    rgba(150, 122, 80, 0.22) 65%,
+    rgba(120, 95, 60, 0) 85%
+  );
+  filter: blur(6px);
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+.astro-smoke--land {
+  animation: smokePuffLand 1.2s ease-out forwards;
+}
+.astro-smoke--lift {
+  animation: smokePuffLift 1.0s ease-out forwards;
+}
+
+@keyframes smokePuffLand {
+  0% {
+    opacity: 0;
+    transform: translate(0, 10%) scale(0.4);
+    filter: blur(3px);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(0, -10%) scale(0.95);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -55%) scale(1.7);
+    filter: blur(14px);
+  }
+}
+
+@keyframes smokePuffLift {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+    filter: blur(4px);
+  }
+  15% {
+    opacity: 0.9;
+    transform: translate(0, -20%) scale(1.1);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -90%) scale(2);
+    filter: blur(16px);
+  }
+}
+
+/* =========================================================
+   MODES TO JOIN + STUDENT PROJECTS — shared moon backdrop
+========================================================= */
+.modes-stage-wrapper {
+  position: relative;
+  overflow: hidden;
+  /* updated to the new uploaded backdrop */
+  background: #000 url("../../assets/modes-to-join.webp") center / cover
+    no-repeat;
+}
+
+.modes-stage-wrapper::before,
+.modes-stage-wrapper::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14%;
+  z-index: 2;
+  pointer-events: none;
+}
+.modes-stage-wrapper::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+.modes-stage-wrapper::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+/* Sticky moon canvas — stays in viewport while both sections scroll over it */
+.modes-stage-bg-holder {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 0;
+  margin-bottom: -100vh;
+  /* moon mesh receives drag events via r3f raycasting; empty canvas areas
+     pass through to whatever's behind */
+  pointer-events: auto;
+}
+
+.modes-stage-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.modes-stage-content {
+  position: relative;
+  z-index: 4;
+}
+
+/* ---- MODES TO JOIN ---- */
+.modes-section {
+  padding: var(--space-xl) 0 var(--space-l);
+  text-align: center;
+}
+
+.modes-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: #fff;
+  font-size: clamp(1.8rem, 3.6vw, 3.4rem);
+  letter-spacing: 0.03em;
+  margin: 0 0 0.6rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px rgba(80, 150, 255, 0.4);
+}
+
+.modes-subtitle {
+  color: #fff;
+  font-weight: 700;
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  margin: 0 0 0.4rem;
+  font-family: var(--font-display);
+}
+
+.modes-desc {
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 56ch;
+  margin: 0 auto var(--space-l);
+  font-size: clamp(0.85rem, 1.05vw, 0.95rem);
+  line-height: 1.55;
+}
+
+.modes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: clamp(1.2rem, 2.5vw, 2.5rem);
+  justify-items: center;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 var(--space-m);
+}
+
+.modes-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  padding: clamp(1rem, 1.6vw, 1.5rem);
+  aspect-ratio: 4 / 5;
+  background: url('../../assets/modes-to-join/students_learning_box_frame.svg')
+    center / 100% 100% no-repeat;
+}
+
+.modes-card-imgwrap {
+  flex: 1;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.modes-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.modes-card-label {
+  font-family: var(--font-display);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+  text-align: center;
+  padding: 0.3rem 0 0.1rem;
+}
+
+/* ---- STUDENT PROJECTS ---- */
+.projects-section {
+  position: relative;
+  padding: var(--space-xl) 0;
+  text-align: center;
+  background: #02060f url("../../assets/students-project-bg.webp") center /
+    cover no-repeat;
+}
+
+/* black fade overlays at top + bottom */
+.projects-section::before,
+.projects-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16%;
+  z-index: 1;
+  pointer-events: none;
+}
+.projects-section::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+.projects-section::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+.projects-section > .container {
+  position: relative;
+  z-index: 2;
+}
+
+.projects-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: #fff;
+  font-size: clamp(1.8rem, 3.6vw, 3.4rem);
+  letter-spacing: 0.03em;
+  margin: 0 0 0.6rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px rgba(80, 150, 255, 0.4);
+}
+
+.projects-subtitle {
+  color: #fff;
+  font-weight: 700;
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  margin: 0 0 0.4rem;
+  font-family: var(--font-display);
+}
+
+.projects-desc {
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 56ch;
+  margin: 0 auto var(--space-l);
+  font-size: clamp(0.85rem, 1.05vw, 0.95rem);
+  line-height: 1.55;
+}
+
+.projects-slider {
+  padding: 0 var(--space-m);
+  margin: 0 auto;
+  max-width: 1280px;
+}
+
+.projects-slide {
+  height: auto;
+}
+
+.projects-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0.85fr 1.3fr;
+  align-items: stretch;
+  gap: 1.2rem;
+  padding: 1.2rem 1.5rem;
+  min-height: 240px;
+  background: url('../../assets/projects/project-box-frame.svg') center / 100%
+    100% no-repeat;
+}
+
+.projects-card-imgwrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.projects-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  margin-left:20px
+}
+
+.projects-card-body {
+  text-align: left;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem 0.4rem 0.4rem 0;
+  min-height: 100%;
+}
+
+.projects-card-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  margin: 0 0 0.55rem;
+  font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+  color: #fff;
+}
+
+.projects-card-desc {
+  font-size: clamp(0.8rem, 0.95vw, 0.92rem);
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.projects-card-student {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: clamp(0.78rem, 0.92vw, 0.88rem);
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: auto;
+  padding-top: 0.6rem;
+  padding-right: 30px;
+}
+
+.projects-card-name {
+  font-weight: 700;
+  color: #fff;
+}
+
+.projects-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 900px;
+  margin: var(--space-l) auto 0;
+  padding: 1.2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  text-align: center;
+}
+
+.projects-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.projects-stat:first-child {
+  border-left: 0;
+}
+
+.projects-stat-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 3.6vw, 3.2rem);
+  line-height: 1;
+}
+
+.projects-stat-lbl {
+  font-size: clamp(0.75rem, 0.95vw, 0.85rem);
+  color: rgba(255, 255, 255, 0.78);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 760px) {
+  .modes-grid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+  }
+  .projects-card {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 1rem;
+  }
+  .projects-card-student {
+    align-items: flex-start;
+  }
+  .projects-stats {
+    grid-template-columns: 1fr;
+  }
+  .projects-stat {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0.6rem;
+  }
+  .projects-stat:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
+/* =========================================================
+   PROJECT IMPACT — title + description centred above three
+   horizontal impact cards
+========================================================= */
+.impact-section {
+  position: relative;
+  padding: var(--space-xl) 0;
+  background: #02060f url("../../assets/project-impact-bg.webp") center / cover
+    no-repeat;
+  text-align: center;
+}
+
+.impact-section::before,
+.impact-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18%;
+  z-index: 1;
+  pointer-events: none;
+}
+.impact-section::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+.impact-section::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+.impact-head {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin: 0 auto var(--space-l);
+}
+
+.impact-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: #fff;
+  font-size: clamp(1.8rem, 3.6vw, 3.4rem);
+  letter-spacing: 0.03em;
+  margin: 0 0 0.4rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px rgba(80, 150, 255, 0.4);
+}
+
+.impact-subtitle {
+  color: #fff;
+  font-weight: 700;
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  margin: 0 0 0.6rem;
+  font-family: var(--font-display);
+}
+
+.impact-desc {
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 60ch;
+  margin: 0 auto;
+  font-size: clamp(0.85rem, 1.05vw, 0.95rem);
+  line-height: 1.6;
+}
+
+.impact-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.2rem, 2.2vw, 2rem);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--space-m);
+}
+
+.impact-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: clamp(1.3rem, 2vw, 1.8rem) clamp(1rem, 1.6vw, 1.4rem);
+  border-radius: 22px;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 28, 58, 0.85) 0%,
+    rgba(10, 20, 44, 0.9) 100%
+  );
+  border: 1px solid rgba(120, 170, 255, 0.4);
+  box-shadow: 0 0 0 1px rgba(120, 170, 255, 0.08) inset,
+    0 0 40px rgba(50, 110, 200, 0.18);
+  text-align: center;
+  color: #fff;
+}
+
+.impact-card-icon {
+  width: clamp(48px, 5vw, 64px);
+  height: clamp(48px, 5vw, 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.impact-card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(120, 170, 255, 0.5));
+}
+
+.impact-card-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  margin: 0;
+  line-height: 1.2;
+  white-space: pre-line;
+}
+
+.impact-card-desc {
+  font-size: clamp(0.8rem, 0.95vw, 0.9rem);
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+  line-height: 1.55;
+  max-width: 28ch;
+}
+
+@media (max-width: 880px) {
+  .impact-grid {
+    grid-template-columns: 1fr;
+    max-width: 460px;
+  }
+}
+
+/* =========================================================
+   COMMUNITY — Earth + Moon split, then tabs/testimonials reveal
+========================================================= */
+.community-section {
+  position: relative;
+  /* tall enough to give a smooth scroll window for the planet split + reveal
+     while the bg-holder & content stay sticky inside */
+  min-height: 220vh;
+  /* overflow: clip lets the section bound stray pixels WITHOUT killing
+     position:sticky on its children (overflow:hidden would break sticky) */
+  overflow: clip;
+  background: #03060f;
+}
+
+.community-section::before,
+.community-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16%;
+  /* keep these gradient overlays UNDER the fixed astro-layer (z:3) so the
+     astronaut isn't darkened as he transitions into the section */
+  z-index: 2;
+  pointer-events: none;
+}
+.community-section::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+.community-section::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+/* Sticky 3D canvas — stays full-viewport while you scroll the section.
+   The section's bg image lives here (always exactly 100vh tall, so the
+   artwork is never stretched across the section's full 220vh height).
+   pointer-events: auto so the planets can receive drag events; only their
+   meshes consume them via r3f raycasting — empty areas pass through. */
+.community-bg-holder {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 1;
+  margin-bottom: -100vh;
+  pointer-events: auto;
+  background: url('../../assets/testimonial-bg.webp') center / cover no-repeat;
+}
+
+/* Sticky content layer above the 3D — fades in once the planets have split */
+.community-content {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  pointer-events: none;
+}
+.community-section--in .community-content {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.community-grid {
+  display: grid;
+  /* widen the centre column so the slider gets more horizontal space */
+  grid-template-columns: 1.2fr 2.05fr 0.9fr;
+  gap: clamp(1rem, 2vw, 2rem);
+  align-items: center;
+  width: 100%;
+  padding: 0 var(--space-m);
+}
+
+/* LEFT — tabs + arrow */
+.community-left {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.6rem, 1.4vw, 1.2rem);
+}
+
+.community-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.community-tab {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  letter-spacing: 0.06em;
+  color: #fff;
+  /* match the source PNG (483 × 123) so 100% 100% maps 1-to-1 — no stretch */
+  width: clamp(160px, 14vw, 200px);
+  aspect-ratio: 483 / 123;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: url('../../assets/community-says/testimonial-category-btn-bg.png')
+    center / 100% 100% no-repeat;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.25s ease;
+}
+.community-tab:hover {
+  filter: brightness(1.15);
+  transform: translateX(2px);
+}
+.community-tab--active {
+  filter: brightness(1.45) drop-shadow(0 0 18px rgba(80, 140, 255, 0.55));
+}
+
+.community-arrow {
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  color: rgba(255, 255, 255, 0.85);
+  margin-left: 0.4rem;
+}
+
+/* CENTER — vertical slider sized so 3 cards fit clearly */
+.community-slider {
+  /* taller slider → bigger slide slots → wider cards (height-driven width
+     via the card's locked 1660/965 aspect ratio) */
+  height: 100vh;
+  max-height: 1040px;
+  width: 100%;
+}
+.community-slider .swiper {
+  height: 100%;
+  overflow: visible; /* let the scaled-up active card breathe without clipping */
+}
+
+/* stretch the slide to its allocated swiper height so the active card
+   centres precisely in the slider, with the card filling the slot */
+.community-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.community-card {
+  display: grid;
+  grid-template-columns: 0.85fr 1.2fr;
+  gap: 1.2rem;
+  padding: 1.4rem 1.6rem;
+  /* lock the card to the source PNG's exact ratio (1660 × 965) so the
+     100% 100% background never stretches the artwork. Height-driven from
+     the slide so 3 always fit; width derives from the aspect-ratio. */
+  height: 100%;
+  aspect-ratio: 1660 / 965;
+  width: auto;
+  max-width: 100%;
+  background: url('../../assets/community-says/testimonial-card-bg.png') center
+    / 100% 100% no-repeat;
+  border: none;
+  /* non-active cards: noticeably smaller + faded so the centred one pops */
+  transform: scale(0.78);
+  opacity: 0.4;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.45s ease, filter 0.45s ease;
+}
+.community-slider .swiper-slide-active .community-card {
+  transform: scale(1.12);
+  opacity: 1;
+  filter: brightness(1.08)
+    drop-shadow(0 0 32px rgba(60, 130, 220, 0.45));
+}
+
+.community-card-imgwrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.community-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.community-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  color: #fff;
+  text-align: left;
+  padding: 0.4rem 0.2rem 0.4rem 0;
+}
+
+.community-card-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  margin: 0;
+}
+
+.community-card-desc {
+  font-size: clamp(0.78rem, 0.92vw, 0.88rem);
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.community-card-btn {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 0.55rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(140, 190, 255, 0.4);
+  background: rgba(20, 36, 72, 0.85);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.community-card-btn:hover {
+  background: rgba(40, 80, 160, 0.95);
+  transform: translateY(-1px);
+}
+
+/* RIGHT — title + description */
+.community-info {
+  color: #fff;
+  text-align: left;
+  padding-right: var(--space-s);
+}
+.community-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.4vw, 3rem);
+  margin: 0 0 1rem;
+  line-height: 1.05;
+}
+.community-desc {
+  font-size: clamp(0.85rem, 1.05vw, 0.95rem);
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 36ch;
+}
+
+@media (max-width: 980px) {
+  .community-grid {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+    text-align: center;
+  }
+  .community-left {
+    justify-content: center;
+  }
+  .community-arrow {
+    display: none;
+  }
+  .community-info {
+    text-align: center;
+    padding-right: 0;
+  }
+  .community-desc {
+    margin: 0 auto;
+  }
+  .community-slider {
+    height: 56vh;
+  }
+}
+
+/* =========================================================
+   FUTURE BUILT — scroll-scrubbed astronaut video + centred CTA
+========================================================= */
+.future-section {
+  position: relative;
+  /* tall enough that the sticky video scrubs across a comfortable
+     scroll window (~2 viewports of scroll for the playthrough) */
+  min-height: 300vh;
+  overflow: clip;
+  background: #000;
+}
+
+/* sticky video — pinned to viewport while the section scrolls past */
+.future-bg {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 1;
+  margin-bottom: -100vh;
+  overflow: hidden;
+}
+
+.future-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* keep crisp playback when scrubbed */
+  pointer-events: none;
+}
+
+/* darken the video subtly so the title pops once it reveals */
+.future-bg-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 50% 55%,
+      rgba(0, 0, 0, 0.25) 0%,
+      rgba(0, 0, 0, 0.55) 60%,
+      rgba(0, 0, 0, 0.75) 100%
+    );
+}
+
+/* sticky content overlay — fades in once the video reaches its end */
+.future-content {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 var(--space-l);
+  color: #fff;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  pointer-events: none;
+}
+.future-section--in .future-content {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.future-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  letter-spacing: 0.02em;
+  margin: 0 0 1.3rem;
+  line-height: 1.05;
+  text-transform: uppercase;
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.6),
+    0 0 14px rgba(50, 90, 200, 0.25);
+}
+
+.future-desc {
+  font-size: clamp(0.92rem, 1.15vw, 1.05rem);
+  line-height: 1.6;
+  max-width: 60ch;
+  margin: 0 auto 2rem;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+}
+
+.future-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.future-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 2.4rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: clamp(0.9rem, 1.05vw, 1rem);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.22s ease, filter 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.future-btn:hover {
+  transform: translateY(-2px);
+}
+
+.future-btn--primary {
+  background: linear-gradient(180deg, #2a5dff 0%, #1f4ad6 100%);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 6px 28px rgba(60, 120, 240, 0.45);
+}
+.future-btn--primary:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 8px 32px rgba(60, 120, 240, 0.55);
+}
+
+.future-btn--ghost {
+  background: rgba(15, 28, 58, 0.55);
+  color: #fff;
+  border: 1px solid rgba(140, 190, 255, 0.5);
+  backdrop-filter: blur(8px);
+}
+.future-btn--ghost:hover {
+  background: rgba(30, 60, 130, 0.7);
+}
+
+@media (max-width: 720px) {
+  .future-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 1rem;
+  }
+  .future-btn {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   TRACKING — "What are we tracking?" — mission list left,
+   big orange-lit moon right
+========================================================= */
+.tracking-section {
+  position: relative;
+  min-height: 100vh;
+  /* darker-than-dark backdrop — strong warm bloom from the TOP-right
+     where the spotlight + moon now live */
+  background:
+    radial-gradient(
+      ellipse 80% 65% at 88% 12%,
+      rgba(48, 14, 2, 0.95) 0%,
+      rgba(16, 4, 0, 0.95) 55%,
+      #000 100%
+    ),
+    #000;
+  overflow: hidden;
+  padding: var(--space-xl) 0;
+}
+
+/* black fade overlays at top + bottom for blending with neighbouring sections.
+   Kept under the fixed astro-layer (z:3) so the astronaut isn't darkened. */
+.tracking-section::before,
+.tracking-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16%;
+  z-index: 2;
+  pointer-events: none;
+}
+.tracking-section::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+.tracking-section::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+/* warm orange spotlight bloom — anchored to the TOP-right above the moon */
+.tracking-bg-glow {
+  position: absolute;
+  z-index: 1;
+  top: -25%;
+  right: -10%;
+  width: 80vw;
+  height: 110vh;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 130, 50, 0.95) 0%,
+    rgba(255, 90, 25, 0.7) 14%,
+    rgba(220, 60, 15, 0.45) 28%,
+    rgba(150, 35, 10, 0.22) 45%,
+    rgba(60, 18, 6, 0.08) 65%,
+    rgba(20, 5, 2, 0) 80%
+  );
+  filter: blur(30px);
+}
+
+/* 3D canvas occupies the full section — moon sits on the right */
+.tracking-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+/* mission content sits over the canvas on the left */
+.tracking-content {
+  position: relative;
+  z-index: 4;
+  pointer-events: none; /* let the moon receive drags through empty space */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.tracking-inner {
+  width: 100%;
+  max-width: 1550px;
+  padding: 0 var(--space-l);
+}
+
+.tracking-title {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+  margin: 0 0 var(--space-l);
+  letter-spacing: 0.02em;
+  pointer-events: auto;
+}
+
+.tracking-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  max-width: 520px;
+}
+
+.tracking-mission {
+  pointer-events: auto;
+}
+
+.tracking-mission-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 5.4vw, 4.4rem);
+  margin: 0 0 0.4rem;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: 0.005em;
+}
+
+.tracking-mission-time {
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  margin: 0 0 0.85rem;
+  letter-spacing: 0.06em;
+}
+
+.tracking-mission-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0 1.6rem;
+  /* uploaded mission button artwork — aspect-ratio matched to the PNG so
+     100% 100% maps 1-to-1 (no stretch) */
+  background: url("../../assets/mission-box-bg.png") center / 100% 100%
+    no-repeat;
+  border: none;
+  width: clamp(130px, 12vw, 170px);
+  aspect-ratio: 200 / 70;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(0.85rem, 1vw, 0.95rem);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  filter: drop-shadow(0 5px 18px rgba(60, 120, 240, 0.4));
+  transition: transform 0.22s ease, filter 0.22s ease;
+}
+.tracking-mission-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  filter: drop-shadow(0 8px 26px rgba(80, 140, 255, 0.6)) brightness(1.08);
+}
+.tracking-mission-btn span {
+  font-size: 0.8em;
+  line-height: 1;
+}
+
+@media (max-width: 820px) {
+  .tracking-bg-glow {
+    right: -20%;
+    width: 90vw;
+    height: 60vh;
+  }
+  .tracking-mission-title {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+}
+
+/* =========================================================
+   SITE-WIDE CARD GLOW + HOVER
+   gentle ambient pulse + lift-on-hover for the major card types
+========================================================= */
+
+@keyframes cardGlowPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba(120, 170, 255, 0.08) inset,
+      0 0 28px rgba(50, 110, 200, 0.18);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(120, 170, 255, 0.14) inset,
+      0 0 44px rgba(70, 140, 230, 0.34);
+  }
+}
+
+@keyframes cardGlowPulseDrop {
+  0%, 100% {
+    filter: drop-shadow(0 0 18px rgba(50, 110, 200, 0.22));
+  }
+  50% {
+    filter: drop-shadow(0 0 30px rgba(80, 150, 240, 0.45));
+  }
+}
+
+/* cards backed by solid CSS bg (rounded boxes) — pulse via box-shadow */
+/* .modes-card,
+.community-card,
+.impact-card {
+  animation: cardGlowPulse 4.5s ease-in-out infinite;
+  transition: transform 0.3s ease, filter 0.3s ease,
+    box-shadow 0.3s ease, border-color 0.3s ease;
+} */
+
+.modes-card:hover,
+.community-card:hover,
+.impact-card:hover {
+  transform: translateY(-4px) scale(1.015);
+  filter: brightness(1.06);
+  box-shadow: 0 0 0 1px rgba(140, 190, 255, 0.18) inset,
+    0 8px 40px rgba(70, 150, 240, 0.45);
+}
+
+/* cards backed by PNG artwork — pulse via filter so we don't drown the bg */
+.projects-card,
+.vetted-card,
+.tracking-mission {
+  animation: cardGlowPulseDrop 4.8s ease-in-out infinite;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+.projects-card:hover,
+.vetted-card:hover,
+.tracking-mission:hover {
+  transform: translateY(-4px) scale(1.02);
+  filter: drop-shadow(0 0 32px rgba(80, 150, 240, 0.55)) brightness(1.08);
+}
+
+/* primary nav / CTA buttons get a hover-lift too */
+.future-btn,
+.community-tab,
+.community-card-btn {
+  transition: transform 0.25s ease, filter 0.25s ease,
+    box-shadow 0.25s ease, background 0.25s ease;
+}
+.future-btn:hover,
+.community-card-btn:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.1);
+}
+
+/* =========================================================
+   EXPLORE PROGRAMS — autoplay card slider
+========================================================= */
+.explore-section {
+  position: relative;
+  padding: var(--space-xl) 0;
+  background: #02060f
+    url("../../assets/modes-to-join.webp") center / cover no-repeat;
+  overflow: hidden;
+}
+
+.explore-section::before,
+.explore-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18%;
+  z-index: 1;
+  pointer-events: none;
+}
+.explore-section::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+.explore-section::after {
+  bottom: 0;
+  background: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+.explore-section > .container {
+  position: relative;
+  z-index: 2;
+}
+
+.explore-title {
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  margin: 0 0 var(--space-l);
+  letter-spacing: 0.01em;
+}
+
+.explore-slider {
+  margin: 0 -0.5rem;
+}
+
+.explore-slide {
+  height: auto;
+}
+
+.explore-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.9rem;
+  /* inner padding leaves a safe area inside the box-frame SVG */
+  padding: 9% 9% 10%;
+  aspect-ratio: 4 / 5;
+  background: url("../../assets/modes-to-join/students_learning_box_frame.svg")
+    center / 100% 100% no-repeat;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+.explore-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  filter: drop-shadow(0 0 26px rgba(80, 150, 240, 0.5)) brightness(1.08);
+}
+
+.explore-card-imgwrap {
+  width: 100%;
+  /* photo's natural aspect rather than filling whatever remains in the
+     column — avoids the squashed look */
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0a1230;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.explore-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.explore-card-label {
+  font-family: var(--font-display);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  font-size: clamp(0.85rem, 1.05vw, 1rem);
+  text-align: center;
+  padding: 0.25rem 0 0.15rem;
+  line-height: 1.2;
+  margin-top: auto; /* push label to the bottom of the frame area */
+}
+
+/* =========================================================
+   SITE FOOTER
+========================================================= */
+.site-footer {
+  position: relative;
+  background: #050b1d;
+  color: rgba(220, 230, 250, 0.88);
+  padding: clamp(2.5rem, 4.5vw, 4rem) 0 clamp(1.2rem, 2vw, 1.8rem);
+  font-family: var(--font-sans);
+  /* leave room on the right for the floating astronaut */
+}
+
+.site-footer-inner {
+  position: relative;
+  z-index: 2;
+  /* reserve right margin so columns don't run into the astronaut */
+  padding-right: clamp(80px, 11vw, 180px);
+}
+
+/* single horizontal row: logo + 4 named columns */
+.site-footer-row {
+  display: grid;
+  grid-template-columns: auto repeat(4, minmax(0, 1fr));
+  gap: clamp(1.6rem, 3vw, 3.4rem);
+  align-items: start;
+  margin-bottom: clamp(2rem, 3vw, 3rem);
+}
+
+.site-footer-brand {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0.4rem;
+}
+
+.site-footer-logo {
+  width: clamp(120px, 10vw, 250px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 0 14px rgba(80, 140, 230, 0.35));
+}
+
+.site-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.site-footer-col-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: #fff;
+  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.site-footer-list,
+.site-footer-contact {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.site-footer-list a,
+.site-footer-contact a {
+  color: rgba(220, 230, 250, 0.78);
+  text-decoration: none;
+  font-size: clamp(0.82rem, 0.95vw, 0.92rem);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.site-footer-list a:hover,
+.site-footer-contact a:hover {
+  color: #6db4ff;
+  transform: translateX(2px);
+}
+
+.site-footer-contact li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: clamp(0.82rem, 0.95vw, 0.92rem);
+  color: rgba(220, 230, 250, 0.85);
+}
+
+.site-footer-icon {
+  font-size: 1rem;
+  margin-top: 0.18rem;
+  color: #6db4ff;
+  flex-shrink: 0;
+}
+
+/* social row sits inside the Contact column, below the contact lines */
+.site-footer-socials {
+  display: inline-flex;
+  gap: 1.1rem;
+  margin-top: 0.9rem;
+}
+.site-footer-socials a {
+  color: #6db4ff;
+  font-size: 1.15rem;
+  transition: transform 0.2s ease, filter 0.2s ease, color 0.2s ease;
+  filter: drop-shadow(0 0 5px rgba(80, 160, 255, 0.45));
+}
+.site-footer-socials a:hover {
+  color: #cfe6ff;
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 12px rgba(120, 180, 255, 0.85));
+}
+
+/* Stay Connected column */
+.site-footer-stay-desc {
+  color: rgba(200, 215, 240, 0.72);
+  font-size: clamp(0.78rem, 0.92vw, 0.88rem);
+  line-height: 1.5;
+  margin: 0 0 0.9rem;
+}
+
+.site-footer-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(110, 180, 255, 0.45);
+  border-radius: 8px;
+  padding: 0.3rem 0.35rem 0.3rem 0.85rem;
+  background: rgba(8, 22, 60, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+.site-footer-form input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.88rem;
+  padding: 0.4rem 0;
+}
+.site-footer-form input::placeholder {
+  color: rgba(170, 200, 240, 0.6);
+}
+
+.site-footer-form button {
+  border: none;
+  background: linear-gradient(180deg, #2a5dff 0%, #1f4ad6 100%);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.site-footer-form button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+/* bottom strip — copyright + policies */
+.site-footer-bottom {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(1.6rem, 2.4vw, 2.4rem);
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(80, 130, 200, 0.15);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.4rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-footer-copy,
+.site-footer-policy {
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  color: rgba(170, 200, 240, 0.7);
+  font-size: 0.75rem;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+.site-footer-policy a {
+  color: rgba(170, 200, 240, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.site-footer-policy a:hover {
+  color: #6db4ff;
+}
+
+@media (max-width: 1080px) {
+  .site-footer-row {
+    grid-template-columns: auto repeat(2, 1fr);
+  }
+  .site-footer-brand {
+    grid-column: 1 / -1;
+    margin-bottom: 0.4rem;
+  }
+}
+@media (max-width: 640px) {
+  .site-footer-inner {
+    padding-right: var(--space-m, 1.2rem);
+  }
+  .site-footer-row {
+    grid-template-columns: 1fr;
+  }
+  .site-footer-brand {
+    grid-column: auto;
+  }
+  .site-footer-bottom {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* =========================================================
+   NEON FX — site-wide neon glow + section animations
+========================================================= */
+
+/* breathing neon glow used on PNG/SVG frames (drop-shadow based) */
+@keyframes neonPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px rgba(80, 160, 255, 0.55))
+      drop-shadow(0 0 14px rgba(50, 110, 200, 0.32));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(120, 200, 255, 0.85))
+      drop-shadow(0 0 26px rgba(70, 150, 240, 0.55))
+      drop-shadow(0 0 40px rgba(40, 100, 200, 0.32));
+  }
+}
+
+/* breathing neon glow used on solid CSS frames (box-shadow based) */
+@keyframes neonPulseBox {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba(120, 180, 255, 0.18) inset,
+      0 0 18px rgba(60, 130, 220, 0.28),
+      0 0 32px rgba(40, 110, 200, 0.18);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(160, 200, 255, 0.32) inset,
+      0 0 30px rgba(90, 170, 240, 0.55),
+      0 0 56px rgba(60, 130, 220, 0.32);
+  }
+}
+
+/* gentle title underline sweep */
+@keyframes neonScanLine {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* card boxes — neon pulse removed per design request */
+
+/* buttons across the site get a faint, always-on neon glow + a hover surge */
+.future-btn,
+.community-tab,
+.community-card-btn,
+.tracking-mission-btn,
+.why-btn,
+.site-footer-form button {
+  position: relative;
+  filter: drop-shadow(0 0 8px rgba(60, 130, 220, 0.45));
+  transition: transform 0.22s ease, filter 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.future-btn:hover,
+.community-tab:hover,
+.community-card-btn:hover,
+.tracking-mission-btn:hover,
+.why-btn:hover,
+.site-footer-form button:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: drop-shadow(0 0 16px rgba(120, 190, 255, 0.85))
+    drop-shadow(0 0 28px rgba(60, 130, 220, 0.5));
+}
+
+/* primary CTAs get a perpetual edge shimmer */
+.future-btn--primary,
+.community-tab--active {
+  animation: neonPulseBox 3.8s ease-in-out infinite;
+}
+
+/* neon underline on section titles — a thin animated bar under each heading */
+.modes-title,
+.projects-title,
+.impact-title,
+.community-title,
+.tracking-title,
+.explore-title {
+  position: relative;
+}
+.modes-title::after,
+.projects-title::after,
+.impact-title::after,
+.community-title::after,
+.tracking-title::after,
+.explore-title::after {
+  content: "";
+  display: block;
+  width: 90px;
+  height: 2px;
+  margin-top: 0.6rem;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(80, 160, 255, 0) 8%,
+    rgba(140, 200, 255, 0.95) 50%,
+    rgba(80, 160, 255, 0) 92%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: neonScanLine 3.4s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(80, 160, 255, 0.85));
+  border-radius: 2px;
+}
+
+/* keep centred-title sections centred under the bar */
+.modes-section,
+.projects-section,
+.impact-section,
+.tracking-section {
+  --neon-align: center;
+}
+.modes-title::after,
+.projects-title::after,
+.impact-title::after {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* subtle parallax flicker on each section so the page feels alive */
+@keyframes sectionAmbient {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.985; }
+}
+.modes-section,
+.projects-section,
+.impact-section,
+.community-section,
+.tracking-section,
+.explore-section,
+.assoc-section,
+.vetted-section {
+  animation: sectionAmbient 7s ease-in-out infinite;
+}
+
+/* card hover — subtle lift only, no neon glow */
+.modes-card:hover,
+.explore-card:hover,
+.projects-card:hover,
+.vetted-card:hover,
+.tracking-mission:hover,
+.community-card:hover,
+.impact-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  transition: transform 0.25s ease;
+}
+
+/* =========================================================
+   SECTION TITLES — shared white→light-blue gradient + glow.
+   Applied to every section heading EXCEPT the hero heading,
+   which keeps its own larger neon-pulse treatment.
+   `background-clip: text` paints the gradient into the glyph
+   shape; drop-shadow provides the glow since text-shadow
+   can't render on transparent-filled text.
+========================================================= */
+.why-title,
+.lof-title,
+.learn-title,
+.cert-title,
+.careers-title,
+.assoc-title,
+.vetted-title,
+.modes-title,
+.projects-title,
+.impact-title,
+.community-title,
+.future-title,
+.tracking-title,
+.explore-title {
+  background-image: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f1f6ff 38%,
+    #a8c8ff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.55))
+    drop-shadow(0 0 10px rgba(90, 150, 255, 0.45));
+}
+
+
+@media screen and (min-width: 1500px) and (max-width: 1600px){
+  .age-card-list li{
+    font-size: clamp(0.70rem, 0.72vw, 0.75rem);
+  }
+}

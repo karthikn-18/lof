@@ -1,0 +1,10 @@
+@import '../variables';
+
+.notfound-section {
+  text-align: center;
+  padding-top: $space-xl;
+}
+
+.notfound-section p {
+  margin-bottom: $space-m;
+}

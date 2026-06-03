@@ -1,0 +1,18 @@
+@import '../variables';
+
+.btn-primary.custom-btn {
+  background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
+  border: 1px solid transparent;
+  color: $color-white;
+}
+
+.btn-secondary.custom-btn {
+  background: transparent;
+  border-color: $color-secondary;
+  color: $color-secondary;
+}
+
+.btn-primary.custom-btn:hover,
+.btn-secondary.custom-btn:hover {
+  box-shadow: 0 20px 40px rgba(108, 99, 255, 0.2);
+}

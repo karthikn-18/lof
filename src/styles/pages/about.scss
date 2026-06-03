@@ -1,0 +1,15 @@
+@import '../variables';
+
+.about-hero {
+  padding-bottom: $space-xl;
+}
+
+.about-values {
+  .row {
+    gap: $space-l;
+  }
+
+  article {
+    @extend %card-base;
+  }
+}

@@ -1,0 +1,39 @@
+@import '../variables';
+
+.hero-section {
+  padding-top: $space-xl;
+  padding-bottom: $space-xl;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: $space-xl;
+  align-items: center;
+}
+
+.hero-copy h1 {
+  margin-bottom: $space-m;
+}
+
+.hero-visual {
+  min-height: 520px;
+}
+
+.feature-section {
+  padding-top: 0;
+}
+
+.feature-card {
+  @extend %card-base;
+}
+
+@media (max-width: $breakpoint-lg) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    min-height: 420px;
+  }
+}

@@ -1,0 +1,19 @@
+@import '../variables';
+
+.services-hero {
+  padding-bottom: $space-xl;
+}
+
+.services-grid .service-card {
+  @extend %card-base;
+  min-height: 220px;
+}
+
+.cta-section {
+  .cta-card {
+    @extend %card-base;
+    display: grid;
+    gap: $space-s;
+    text-align: center;
+  }
+}

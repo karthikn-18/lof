@@ -1,0 +1,8 @@
+.notfound-section {
+  text-align: center;
+  padding-top: var(--space-xl);
+}
+
+.notfound-section p {
+  margin-bottom: var(--space-m);
+}
